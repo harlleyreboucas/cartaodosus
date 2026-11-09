@@ -334,7 +334,7 @@ function validCns(cns) {
 // Rótulo sozinho ("Nome", "Data de nascimento:", "CPF *"...)
 const LABELS = {
   nome: /^(nome( completo| civil| do cidad[aã]o)?|cidad[aã]o)\s*\*?\s*:?$/i,
-  nascimento: /^(data\s*(de\s*)?nasc(imento)?\.?|nascimento|dt\.?\s*nasc\.?)\s*\*?\s*:?$/i,
+  nascimento: /^(data\s*(de\s*)?nasc(imento)?\.?|nascimento|dt\.?\s*nasc\.?|nasceu em)\s*\*?\s*:?$/i,
   sexo: /^(sexo( biol[oó]gico)?)\s*\*?\s*:?$/i,
   cpf: /^cpf\s*\*?\s*:?$/i,
   cns: /^(cns|cart[aã]o\s*(nacional\s*)?(de\s*)?sa[uú]de|n[uú]mero\s*do\s*cns|cns\s*do\s*cidad[aã]o)\s*\*?\s*:?$/i
@@ -343,7 +343,7 @@ const LABELS = {
 // Rótulo + valor no mesmo texto, sem dois-pontos ("Nome JOSE DA SILVA", "CNS 7046...")
 const PREFIX = {
   nome: /^(?:nome completo|nome civil|nome)\s+(.+)$/i,
-  nascimento: /^(?:data\s*(?:de\s*)?nasc(?:imento)?\.?|nascimento|dt\.?\s*nasc\.?)\s+(.+)$/i,
+  nascimento: /^(?:data\s*(?:de\s*)?nasc(?:imento)?\.?|nascimento|dt\.?\s*nasc\.?|nasceu em)\s+(.+)$/i,
   sexo: /^sexo(?: biol[oó]gico)?\s+(.+)$/i,
   cpf: /^cpf\s+(.+)$/i,
   cns: /^(?:cns|cart[aã]o\s*(?:nacional\s*)?(?:de\s*)?sa[uú]de|cart[aã]o sus)\s+(.+)$/i
@@ -400,12 +400,15 @@ const VALUES = {
 
 // Divide o texto bruto colado em tokens (quebras de linha, tabs ou 2+ espaços separam).
 function splitText(text) {
-  return String(text).replace(/ /g, ' ').split(/[\n\r\t]+|\s{2,}/)
+  return String(text).replace(/\u00a0/g, ' ').split(/[\n\r\t]+|\s{2,}|\s*[|•·]\s*/)
     .map(function (t) { return t.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
 }
 
 function parseTokens(tokens) {
-  tokens = tokens.map(function (t) { return String(t).replace(/ /g, ' ').replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+  tokens = [].concat.apply([], tokens.map(function (t) {
+    return String(t).replace(/\u00a0/g, ' ').split(/\s*[|•·]\s*/);
+  })).map(function (t) { return t.replace(/\s+/g, ' ').trim(); })
+    .filter(function (t) { return t && !/^[-–—]+$/.test(t); });
   const out = {};
   const nomeCands = [];
   const fields = ['nome', 'nascimento', 'sexo', 'cpf', 'cns'];
@@ -453,9 +456,28 @@ function parseTokens(tokens) {
     return anchors.length ? Math.min.apply(null, anchors.map(function (a) { return Math.abs(a - i); })) : 0;
   };
 
+  // Cabeçalho do cadastro no PEC: "Nome Completo | Sexo Masculino" e "56 anos | Nasceu em 09/08/1970".
+  // O nome fica logo antes dessas informações.
+  const temSexo = function (i) {
+    const m = PREFIX.sexo.exec(tokens[i]);
+    return !!((m && VALUES.sexo(m[1])) || (LABELS.sexo.test(tokens[i]) && i + 1 < tokens.length && VALUES.sexo(tokens[i + 1])));
+  };
+  const temIdadeOuNasc = function (i) { return /^nasceu em\b|^\d{1,3}\s+anos?\b/i.test(tokens[i]); };
+  let headerName = null;
+  for (let i = 1; i < tokens.length && !headerName; i++) {          // 1) logo antes do sexo
+    if (!temSexo(i)) continue;
+    for (let k = i - 1; k >= Math.max(0, i - 2) && !headerName; k--) if (looksLikeName(tokens[k])) headerName = tokens[k];
+  }
+  for (let i = 1; i < tokens.length && !headerName; i++) {          // 2) logo antes da idade / "Nasceu em"
+    if (!temIdadeOuNasc(i)) continue;
+    for (let k = i - 1; k >= Math.max(0, i - 3) && !headerName; k--) if (looksLikeName(tokens[k])) headerName = tokens[k];
+  }
+
   // Nome: entre os achados por rótulo, o mais perto do CNS/CPF (evita pegar o nome do profissional logado)
   let nome = null, incerto = false;
-  if (nomeCands.length) {
+  if (headerName) {
+    nome = headerName;
+  } else if (nomeCands.length) {
     nomeCands.sort(function (a, b) { return (dist(a.i) - dist(b.i)) || (a.i - b.i); });
     nome = nomeCands[0].v;
   } else if (anchors.length) {
