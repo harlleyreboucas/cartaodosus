@@ -32,6 +32,11 @@
     input.bad { border-color: #c2410c; }
     small { min-height: 15px; font-weight: 400; font-size: 12px; color: #c2410c; }
     small.good { color: #0a7a3d; }
+    small.info { color: #5a6b61; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: -4px; }
+    .chips[hidden] { display: none; }
+    .chip { padding: 5px 10px; font-size: 12px; font-weight: 600; border-radius: 999px;
+      background: #e7f4ec; border-color: #b9dcc7; color: #0a5c2e; }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
     button { padding: 10px 14px; font: inherit; font-weight: 600; cursor: pointer;
       border: 1px solid #c5d1c9; border-radius: 6px; background: #f3f7f4; color: #1c2b22; }
@@ -57,7 +62,9 @@
     <form id="form" autocomplete="off" novalidate>
       <label>Nome completo
         <input id="nome" type="text" required>
+        <small id="h-nome"></small>
       </label>
+      <div id="sugestoes" class="chips" hidden></div>
 
       <div class="row">
         <label>Data de nascimento
