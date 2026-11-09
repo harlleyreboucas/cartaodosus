@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gerador de Cartão SUS</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px 16px 40px; background: #f2f6f3; color: #1c2b22;
+      font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    main { max-width: 560px; margin: 0 auto; background: #fff; border-radius: 12px;
+      padding: 22px 22px 18px; box-shadow: 0 1px 8px rgba(10, 80, 40, .10); }
+    h1 { margin: 0 0 2px; font-size: 22px; color: #0a7a3d; }
+    .sub { margin: 0 0 14px; color: #5a6b61; font-size: 14px; }
+    .status { min-height: 20px; margin: 0 0 12px; font-size: 14px; color: #5a6b61; }
+    .status.ok { color: #0a7a3d; }
+    .status.warn { color: #b45309; }
+    details { margin-bottom: 14px; border: 1px solid #d5e0d9; border-radius: 8px; padding: 8px 12px; background: #f8fbf9; }
+    summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+    details p { margin: 8px 0; font-size: 13px; color: #5a6b61; }
+    textarea { width: 100%; min-height: 90px; padding: 8px; font: inherit; font-size: 13px;
+      border: 1px solid #c5d1c9; border-radius: 6px; resize: vertical; }
+    form { display: grid; gap: 12px; }
+    label { display: grid; gap: 4px; font-weight: 600; font-size: 13px; }
+    .opt { font-weight: 400; color: #7a8a80; }
+    .row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
+    input, select { width: 100%; padding: 9px 10px; font: inherit; font-weight: 400;
+      border: 1px solid #c5d1c9; border-radius: 6px; background: #fff; }
+    input:focus, select:focus, textarea:focus { outline: 2px solid #19a35a55; border-color: #19a35a; }
+    input.bad { border-color: #c2410c; }
+    small { min-height: 15px; font-weight: 400; font-size: 12px; color: #c2410c; }
+    small.good { color: #0a7a3d; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    button { padding: 10px 14px; font: inherit; font-weight: 600; cursor: pointer;
+      border: 1px solid #c5d1c9; border-radius: 6px; background: #f3f7f4; color: #1c2b22; }
+    button.primary { flex: 1; min-width: 140px; background: #0a8f48; border-color: #0a8f48; color: #fff; }
+    button.primary:hover { background: #087a3e; }
+    footer { margin-top: 14px; font-size: 12px; color: #7a8a80; }
+    @media (max-width: 420px) { .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Gerador de Cartão SUS</h1>
+    <p class="sub">Gera o PDF do Cartão Nacional de Saúde (CNS) pronto para recortar e imprimir.</p>
+    <p id="status" class="status"></p>
+
+    <details>
+      <summary>Colar texto do PEC (preenche sozinho)</summary>
+      <p>Abra o cadastro do cidadão no PEC, selecione tudo (Ctrl+A), copie (Ctrl+C) e cole abaixo.</p>
+      <textarea id="colar" placeholder="Cole aqui o texto copiado da tela do PEC…"></textarea>
+      <div class="actions"><button type="button" id="ler">Ler dados</button></div>
+    </details>
+
+    <form id="form" autocomplete="off" novalidate>
+      <label>Nome completo
+        <input id="nome" type="text" required>
+      </label>
+
+      <div class="row">
+        <label>Data de nascimento
+          <input id="nascimento" type="text" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" required>
+          <small id="h-nascimento"></small>
+        </label>
+        <label>Sexo
+          <select id="sexo" required>
+            <option value="">—</option>
+            <option value="F">Feminino</option>
+            <option value="M">Masculino</option>
+          </select>
+        </label>
+      </div>
+
+      <label>CNS
+        <input id="cns" type="text" inputmode="numeric" placeholder="000 0000 0000 0000" maxlength="18" required>
+        <small id="h-cns"></small>
+      </label>
+
+      <label><span>CPF <span class="opt">(opcional — sem CPF, sai sem código de barras)</span></span>
+        <input id="cpf" type="text" inputmode="numeric" placeholder="000.000.000-00" maxlength="14">
+        <small id="h-cpf"></small>
+      </label>
+
+      <div class="actions">
+        <button type="submit" class="primary">Baixar PDF</button>
+        <button type="button" id="imprimir">Abrir para imprimir</button>
+        <button type="button" id="limpar">Limpar</button>
+      </div>
+    </form>
+
+    <footer>Os dados são processados somente no seu navegador. Nada é enviado nem salvo.</footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
