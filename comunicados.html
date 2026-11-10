@@ -44,6 +44,8 @@
   .msg{margin-top:10px;padding:10px;border-radius:8px;background:#0f1419;border:1px solid var(--line);white-space:pre-wrap;font-size:13px}
   .big{font-size:22px;font-weight:700}
   [hidden]{display:none!important}
+  summary{cursor:pointer;font-weight:600}
+  details.card>summary{margin:-4px 0 4px}
   .xs{padding:4px 9px;font-size:12px}
 </style>
 </head>
@@ -76,6 +78,33 @@
   <!-- ---------- IMPORTAR ---------- -->
   <section id="tab-importar">
     <div class="card">
+      <h2>Colar a ficha do cidadão (PEC)</h2>
+      <p class="mut">Abra o cadastro do cidadão no PEC, selecione a página (Ctrl+A), copie (Ctrl+C) e cole abaixo, igual ao gerador de cartão do SUS. Marque os grupos a que essa pessoa pertence. Os grupos e a microárea ficam marcados para a próxima ficha.</p>
+      <label>Grupos desta pessoa</label>
+      <div class="chips" id="fc-grupos"></div>
+      <label>Ficha colada</label>
+      <textarea id="fc-texto" placeholder="Cole aqui o texto da ficha do cidadão" style="min-height:110px"></textarea>
+      <div id="fc-form" hidden>
+        <div class="row">
+          <div style="flex:2"><label>Nome</label><input id="fc-nome" type="text"><div id="fc-nomes" class="chips" style="margin-top:6px"></div></div>
+          <div><label>Celular (WhatsApp)</label><input id="fc-tel" type="text" placeholder="(69) 99999-8888"><div id="fc-tels" class="chips" style="margin-top:6px"></div></div>
+        </div>
+        <div class="row">
+          <div><label>Nascimento</label><input id="fc-nasc" type="text" placeholder="dd/mm/aaaa"></div>
+          <div><label>Sexo</label><select id="fc-sexo"><option value="">Não informar</option><option value="F">Feminino</option><option value="M">Masculino</option></select></div>
+          <div><label>CNS</label><input id="fc-cns" type="text"></div>
+          <div><label>Microárea</label><input id="fc-micro" type="text" placeholder="Ex.: 03"></div>
+        </div>
+        <p id="fc-status" class="mut"></p>
+        <button id="fc-salvar">Salvar e próxima ficha</button>
+        <button class="sec" id="fc-limpar" style="margin-left:6px">Descartar</button>
+      </div>
+      <div id="fc-res" class="msg" hidden></div>
+    </div>
+
+    <details class="card">
+      <summary>Importar uma lista/tabela (várias pessoas de uma vez)</summary>
+    <div class="card">
       <h2>Colar dados do PEC</h2>
       <p class="mut">Copie a tabela do PEC (nome, telefone, nascimento, sexo...) e cole abaixo. Marque os grupos a que <b>todas</b> as pessoas desta colagem pertencem. Ex.: colou o relatório de hipertensos → marque "Hipertensos". Colar a mesma pessoa em outro grupo <b>soma</b> o grupo, não apaga o anterior.</p>
       <label>Grupos desta colagem</label>
@@ -98,6 +127,7 @@
       <button id="imp-go">Importar para o banco</button>
       <div id="imp-res" class="msg" hidden></div>
     </div>
+    </details>
   </section>
 
   <!-- ---------- CONTATOS ---------- -->
@@ -158,8 +188,8 @@
 <script>
 /* ============ CONFIGURE AQUI ============ */
 const CFG = {
-  SUPABASE_URL: 'https://thvmevgwcagwuopvoxum.supabase.co',
-  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRodm1ldmd3Y2Fnd3VvcHZveHVtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwMTg4NDMsImV4cCI6MjEwNzU5NDg0M30.MNFN5fyoz9XHYmUNPU9ya8u5PdXJvY3g-maKqQB9A5c',
+  SUPABASE_URL: 'https://SEU-PROJETO.supabase.co',
+  SUPABASE_ANON_KEY: 'COLE_AQUI_A_CHAVE_ANON_PUBLIC',
   N8N_WEBHOOK: 'https://SEU-N8N.harlley.com.br/webhook/disparo-acs'
 };
 /* ======================================== */
@@ -263,6 +293,346 @@ async function carregar(){
   renderContatos();
   atualizaPublico();
 }
+
+/* ======================================================
+   FICHA DO CIDADAO (colar a pagina do PEC, igual ao gerador de cartao do SUS)
+   Leitor de nome/sexo/nascimento/CNS copiado do gerador; telefone acrescentado.
+   ====================================================== */
+function onlyDigits(s) { return String(s || '').replace(/\D/g, ''); }
+
+function validCpf(cpf) {
+  cpf = onlyDigits(cpf);
+  if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+  for (let t = 9; t < 11; t++) {
+    let sum = 0;
+    for (let i = 0; i < t; i++) sum += parseInt(cpf[i], 10) * (t + 1 - i);
+    if (((sum * 10) % 11) % 10 !== parseInt(cpf[t], 10)) return false;
+  }
+  return true;
+}
+
+function validCns(cns) {
+  cns = onlyDigits(cns);
+  if (cns.length !== 15) return false;
+  const d = cns.split('').map(Number);
+  if (cns[0] === '1' || cns[0] === '2') {
+    let soma = 0;
+    for (let i = 0; i < 11; i++) soma += d[i] * (15 - i);
+    let dv = 11 - (soma % 11);
+    if (dv === 11) dv = 0;
+    let res;
+    if (dv === 10) {
+      soma += 2;
+      res = cns.slice(0, 11) + '002' + (11 - (soma % 11));
+    } else res = cns.slice(0, 11) + '000' + dv;
+    return res === cns;
+  }
+  if ('789'.includes(cns[0])) {
+    let soma = 0;
+    for (let i = 0; i < 15; i++) soma += d[i] * (15 - i);
+    return soma % 11 === 0;
+  }
+  return false;
+}
+
+const LABELS = {
+  nome: /^(nome( completo| civil| do cidad[aã]o)?|cidad[aã]o)\s*\*?\s*:?$/i,
+  nascimento: /^(data\s*(de\s*)?nasc(imento)?\.?|nascimento|dt\.?\s*nasc\.?|nasceu em)\s*\*?\s*:?$/i,
+  sexo: /^(sexo( biol[oó]gico)?)\s*\*?\s*:?$/i,
+  cpf: /^cpf\s*\*?\s*:?$/i,
+  cns: /^(cns|cart[aã]o\s*(nacional\s*)?(de\s*)?sa[uú]de|n[uú]mero\s*do\s*cns|cns\s*do\s*cidad[aã]o)\s*\*?\s*:?$/i
+};
+
+const PREFIX = {
+  nome: /^(?:nome completo|nome civil|nome)\s+(.+)$/i,
+  nascimento: /^(?:data\s*(?:de\s*)?nasc(?:imento)?\.?|nascimento|dt\.?\s*nasc\.?|nasceu em)\s+(.+)$/i,
+  sexo: /^sexo(?: biol[oó]gico)?\s+(.+)$/i,
+  cpf: /^cpf\s+(.+)$/i,
+  cns: /^(?:cns|cart[aã]o\s*(?:nacional\s*)?(?:de\s*)?sa[uú]de|cart[aã]o sus)\s+(.+)$/i
+};
+
+const LABEL_LIKE = /^(nome( social| completo| civil| do cidad[aã]o| da m[aã]e| do pai)?|m[aã]e|pai|data( de)? nasc(imento)?\.?|nascimento|idade|sexo( biol[oó]gico)?|g[eê]nero|ra[cç]a( ?\/ ?cor)?|cor|cpf|cns|rg|telefone|celular|e-?mail|endere[cç]o|munic[ií]pio|bairro|cep|nacionalidade|naturalidade|pa[ií]s|uf|cidad[aã]o|paciente|profissional|equipe|[aá]rea|micro[aá]rea|unidade|prontu[aá]rio|respons[aá]vel|obrigat[oó]rio|campo obrigat[oó]rio|identidade de g[eê]nero|orienta[cç][aã]o sexual)$/i;
+
+const NON_NAME = /\b(unidade|sa[uú]de|munic[ií]pio|prefeitura|secretaria|equipe|cadastro|atendimento|prontu[aá]rio|usu[aá]rio|sistema|hospital|ubs|posto|cidad[aã]o|paciente|ficha|dados|informa[cç][oõ]es|identifica[cç][aã]o|contato|endere[cç]o|brasil|brasileira?|masculino|feminino|ra[cç]a|cor)\b/i;
+
+const NAME_PARTICLE = /^(d[aeo]s?|e|d[ií]|du|del|della|van|von|la|le)$/i;
+
+function isLabelLike(t) {
+  t = String(t).trim();
+  return /[:*]$/.test(t) || LABEL_LIKE.test(t.replace(/[\s:*]+$/, ''));
+}
+
+function looksLikeName(s) {
+  s = String(s).replace(/\s+/g, ' ').trim();
+  if (s.length < 5 || s.length > 80) return false;
+  if (isLabelLike(s) || NON_NAME.test(s)) return false;
+  if (!/^[A-Za-zÀ-ÖØ-öø-ÿ'’.\- ]+$/.test(s)) return false;
+  const w = s.split(' ');
+  if (w.length < 2 || w.length > 10) return false;
+  const letters = s.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ]/g, '');
+  if (letters.length < 4) return false;
+  if (letters === letters.toUpperCase()) return true;
+  return w.every(function (x) { return NAME_PARTICLE.test(x) || /^[A-ZÀ-ÖØ-Þ]/.test(x); });
+}
+
+const VALUES = {
+  nome: function (s) { return looksLikeName(s) ? String(s).trim().replace(/\s+/g, ' ') : null; },
+  nascimento: function (s) {
+    let m = /(\d{2})\/(\d{2})\/(\d{4})/.exec(s);
+    if (m) return m[0];
+    m = /(\d{4})-(\d{2})-(\d{2})/.exec(s);
+    return m ? m[3] + '/' + m[2] + '/' + m[1] : null;
+  },
+  sexo: function (s) {
+    s = String(s).trim();
+    if (/^(feminino|fem\.?|f)$/i.test(s)) return 'F';
+    if (/^(masculino|masc\.?|m)$/i.test(s)) return 'M';
+    return null;
+  },
+  cpf: function (s) {
+    const m = /(\d{3})\.?(\d{3})\.?(\d{3})-?(\d{2})/.exec(s);
+    return m ? m[1] + m[2] + m[3] + m[4] : null;
+  },
+  cns: function (s) {
+    return /^\d{15}$/.test(String(s).replace(/[\s.]/g, '')) ? onlyDigits(s) : null;
+  }
+};
+
+function splitText(text) {
+  return String(text).replace(/ /g, ' ').split(/[\n\r\t]+|\s{2,}|\s*[|•·]\s*/)
+    .map(function (t) { return t.replace(/\s+/g, ' ').trim(); }).filter(Boolean);
+}
+
+function parseTokens(tokens) {
+  tokens = [].concat.apply([], tokens.map(function (t) {
+    return String(t).replace(/ /g, ' ').split(/\s*[|•·]\s*/);
+  })).map(function (t) { return t.replace(/\s+/g, ' ').trim(); })
+    .filter(function (t) { return t && !/^[-–—]+$/.test(t); });
+  const out = {};
+  const nomeCands = [];
+  const fields = ['nome', 'nascimento', 'sexo', 'cpf', 'cns'];
+
+  for (let i = 0; i < tokens.length; i++) {
+    const tk = tokens[i];
+    for (const f of fields) {
+      if (f !== 'nome' && out[f]) continue;
+      let v = null;
+      const inline = /^(.{2,40}?)\s*[:：]\s*(.+)$/.exec(tk);
+      if (inline && LABELS[f].test(inline[1].trim())) v = VALUES[f](inline[2]);
+      if (!v) { const m = PREFIX[f].exec(tk); if (m) v = VALUES[f](m[1]); }
+      if (!v && LABELS[f].test(tk)) {
+        for (let j = i + 1; j <= i + 3 && j < tokens.length; j++) {
+          if (f === 'nome' && isLabelLike(tokens[j])) break;
+          v = VALUES[f](tokens[j]);
+          if (v) break;
+        }
+      }
+      if (v) { if (f === 'nome') nomeCands.push({ v: v, i: i }); else out[f] = v; }
+    }
+  }
+
+  const flat = tokens.join('\n');
+  if (!out.cns) {
+    const c = flat.match(/(?<!\d)[12789]\d{2}\s?\d{4}\s?\d{4}\s?\d{4}(?!\d)/g) || [];
+    out.cns = c.map(onlyDigits).find(validCns) || null;
+  }
+  if (!out.cpf) {
+    const c = flat.match(/(?<!\d)\d{3}\.\d{3}\.\d{3}-\d{2}(?!\d)/g) || [];
+    out.cpf = c.map(onlyDigits).find(validCpf) || null;
+  }
+
+  const anchors = [];
+  tokens.forEach(function (t, i) {
+    const d = onlyDigits(t);
+    if ((out.cns && d.indexOf(out.cns) >= 0) || (out.cpf && d.indexOf(out.cpf) >= 0)) anchors.push(i);
+  });
+  const dist = function (i) {
+    return anchors.length ? Math.min.apply(null, anchors.map(function (a) { return Math.abs(a - i); })) : 0;
+  };
+
+  const temSexo = function (i) {
+    const m = PREFIX.sexo.exec(tokens[i]);
+    return !!((m && VALUES.sexo(m[1])) || (LABELS.sexo.test(tokens[i]) && i + 1 < tokens.length && VALUES.sexo(tokens[i + 1])));
+  };
+  const temIdadeOuNasc = function (i) { return /^nasceu em\b|^\d{1,3}\s+anos?\b/i.test(tokens[i]); };
+  let headerName = null;
+  for (let i = 1; i < tokens.length && !headerName; i++) {
+    if (!temSexo(i)) continue;
+    for (let k = i - 1; k >= Math.max(0, i - 2) && !headerName; k--) if (looksLikeName(tokens[k])) headerName = tokens[k];
+  }
+  for (let i = 1; i < tokens.length && !headerName; i++) {
+    if (!temIdadeOuNasc(i)) continue;
+    for (let k = i - 1; k >= Math.max(0, i - 3) && !headerName; k--) if (looksLikeName(tokens[k])) headerName = tokens[k];
+  }
+
+  let nome = null, incerto = false;
+  if (headerName) {
+    nome = headerName;
+  } else if (nomeCands.length) {
+    nomeCands.sort(function (a, b) { return (dist(a.i) - dist(b.i)) || (a.i - b.i); });
+    nome = nomeCands[0].v;
+  } else if (anchors.length) {
+    let best = null;
+    tokens.forEach(function (t, i) {
+      if (!looksLikeName(t)) return;
+      const d = dist(i);
+      if (d > 8) return;
+      const score = d + (anchors.some(function (a) { return a < i; }) ? 0.5 : 0);
+      if (!best || score < best.score) best = { v: t.replace(/\s+/g, ' '), score: score };
+    });
+    if (best) { nome = best.v; incerto = true; }
+  }
+
+  const nearUnique = function (re, map) {
+    const set = {};
+    tokens.forEach(function (t, i) {
+      if (!anchors.length || dist(i) > 12) return;
+      const m = re.exec(t);
+      if (m) set[map(m)] = 1;
+    });
+    const keys = Object.keys(set);
+    return keys.length === 1 ? keys[0] : null;
+  };
+  if (!out.sexo) out.sexo = nearUnique(/^(feminino|masculino)$/i, function (m) { return m[1].toLowerCase() === 'feminino' ? 'F' : 'M'; });
+  if (!out.nascimento) out.nascimento = nearUnique(/(\d{2}\/\d{2}\/\d{4})/, function (m) { return m[1]; });
+
+  const seen = {};
+  const sugestoes = [];
+  tokens.map(function (t, i) { return { t: t.replace(/\s+/g, ' '), i: i }; })
+    .filter(function (o) { return looksLikeName(o.t); })
+    .sort(function (a, b) { return (dist(a.i) - dist(b.i)) || (a.i - b.i); })
+    .forEach(function (o) {
+      const k = o.t.toUpperCase();
+      if (seen[k] || (nome && k === nome.toUpperCase())) return;
+      if (anchors.length && dist(o.i) > 25) return;
+      seen[k] = 1;
+      if (sugestoes.length < 5) sugestoes.push(o.t);
+    });
+
+  return {
+    nome: nome,
+    nascimento: out.nascimento || null,
+    sexo: out.sexo || null,
+    cns: out.cns || null,
+    cpf: out.cpf || null,
+    nomeIncerto: incerto,
+    nomeSugestoes: sugestoes
+  };
+}
+
+/* ----- telefone (acrescentado: o gerador de cartao nao precisa dele) ----- */
+function extraiTelefones(tokens) {
+  const rot = /(celular|telefone|fone|whats|contato)/i;
+  const comRot = [], soltos = [], vistos = new Set();
+  tokens.forEach(function (t, i) {
+    const limpo = t.replace(/(telefone( celular| residencial| comercial| de contato| para contato)?|celular|fone|contato|whats(app)?)/gi, '')
+                   .replace(/[:*]/g, '').trim();
+    if (!/^\+?[\d\s().-]{10,20}$/.test(limpo)) return;
+    if (/\d{3}\.\d{3}\.\d{3}/.test(limpo)) return;                  // CPF
+    const marcado = rot.test(t) || (i > 0 && rot.test(tokens[i - 1])) || (i > 1 && rot.test(tokens[i - 2]));
+    if (!marcado && !/[()]/.test(limpo)) return;                     // sem rotulo: so aceita "(DD) ..."
+    if (!marcado && validCpf(onlyDigits(limpo))) return;
+    const n = normTel(limpo);
+    if (!n || n.charAt(4) !== '9' || vistos.has(n)) return;         // so celular
+    vistos.add(n);
+    (marcado ? comRot : soltos).push(n);
+  });
+  return comRot.concat(soltos);
+}
+const fmtTel = n => n ? `(${n.slice(2, 4)}) ${n.slice(4, 9)}-${n.slice(9)}` : '';
+
+/* ----- tela da ficha ----- */
+chips($('#fc-grupos'), GRUPOS, 'fc');
+let FC_TIMER = null;
+$('#fc-texto').addEventListener('input', () => { clearTimeout(FC_TIMER); FC_TIMER = setTimeout(lerFicha, 250); });
+
+function lerFicha() {
+  const texto = $('#fc-texto').value;
+  $('#fc-res').hidden = true;
+  if (!texto.trim()) { $('#fc-form').hidden = true; return; }
+  const tokens = splitText(texto);
+  const r = parseTokens(tokens);
+  const tels = extraiTelefones(tokens);
+
+  $('#fc-nome').value = r.nome || '';
+  $('#fc-tel').value = tels[0] ? fmtTel(tels[0]) : '';
+  $('#fc-nasc').value = r.nascimento || '';
+  $('#fc-sexo').value = r.sexo || '';
+  $('#fc-cns').value = r.cns || '';
+
+  $('#fc-nomes').innerHTML = (r.nomeIncerto || !r.nome ? r.nomeSugestoes : []).map(n => `<span class="tag" data-nome="${esc(n)}">${esc(n)}</span>`).join('');
+  $('#fc-tels').innerHTML = tels.length > 1 ? tels.map(n => `<span class="tag" data-tel="${n}">${fmtTel(n)}</span>`).join('') : '';
+
+  const falta = [];
+  if (!r.nome) falta.push('nome');
+  if (!tels.length) falta.push('celular');
+  if (!r.nascimento) falta.push('nascimento');
+  if (!r.sexo) falta.push('sexo');
+  $('#fc-status').innerHTML = falta.length
+    ? `<span class="warn">Não consegui ler: ${falta.join(', ')}. Preencha à mão ou confira se copiou a página inteira.</span>`
+    : '<span class="ok">Tudo lido. Confira e salve.</span>';
+  $('#fc-form').hidden = false;
+}
+$('#fc-nomes').addEventListener('click', e => { if (e.target.dataset.nome) $('#fc-nome').value = e.target.dataset.nome; });
+$('#fc-tels').addEventListener('click', e => { if (e.target.dataset.tel) $('#fc-tel').value = fmtTel(e.target.dataset.tel); });
+$('#fc-limpar').onclick = () => { $('#fc-texto').value = ''; $('#fc-form').hidden = true; };
+
+$('#fc-salvar').onclick = async () => {
+  const nome = $('#fc-nome').value.trim().replace(/\s+/g, ' ');
+  const tel = normTel($('#fc-tel').value);
+  if (!nome) return alert('Informe o nome.');
+  if (!tel) return alert('Celular inválido. Use DDD + número de celular (ex.: 69 99999-8888). Telefone fixo não recebe WhatsApp.');
+  const cnsDig = soDigitos($('#fc-cns').value);
+  const reg = {
+    nome, telefone: tel,
+    cns: cnsDig.length === 15 ? cnsDig : null,
+    data_nascimento: normData($('#fc-nasc').value),
+    sexo: $('#fc-sexo').value || null,
+    microarea: $('#fc-micro').value.trim() || null,
+    grupos: marcados($('#fc-grupos'))
+  };
+  const btn = $('#fc-salvar'); btn.disabled = true; btn.textContent = 'Salvando...';
+  const r = $('#fc-res');
+  try {
+    const t1 = await sb.from('contatos').select('*').eq('telefone', tel).limit(1);
+    if (t1.error) throw t1.error;
+    const porTel = t1.data[0] || null;
+    let porCns = null;
+    if (reg.cns) {
+      const t2 = await sb.from('contatos').select('*').eq('cns', reg.cns).limit(1);
+      if (t2.error) throw t2.error;
+      porCns = t2.data[0] || null;
+    }
+    if (porTel && reg.cns && porTel.cns && porTel.cns !== reg.cns &&
+        !confirm(`O celular ${fmtTel(tel)} já está cadastrado para ${porTel.nome} (outra pessoa).\nSalvar mesmo assim? Os grupos serão somados nesse número e o aviso chega uma vez só.`)) {
+      return;
+    }
+    const base = porTel || porCns;
+    const final = {
+      telefone: tel,
+      nome: base ? (base.nome || nome) : nome,
+      cns: reg.cns || (base && base.cns) || null,
+      data_nascimento: reg.data_nascimento || (base && base.data_nascimento) || null,
+      sexo: reg.sexo || (base && base.sexo) || null,
+      microarea: reg.microarea || (base && base.microarea) || null,
+      grupos: [...new Set([...(base ? base.grupos || [] : []), ...reg.grupos])]
+    };
+    let e;
+    if (!porTel && porCns) ({ error: e } = await sb.from('contatos').update(final).eq('id', porCns.id));
+    else ({ error: e } = await sb.from('contatos').upsert(final, { onConflict: 'telefone' }));
+    if (e) throw e;
+    r.hidden = false;
+    r.innerHTML = `<span class="ok">Salvo:</span> ${esc(final.nome)} ${porTel || porCns ? '(já existia, atualizado)' : '(novo)'}` +
+      `\nGrupos: ${final.grupos.length ? final.grupos.map(g => nomeGrupo[g]).join(', ') : 'nenhum'}`;
+    $('#fc-texto').value = ''; $('#fc-form').hidden = true;
+    await carregar();
+    $('#fc-texto').focus();
+  } catch (e) {
+    r.hidden = false; r.innerHTML = `<span class="bad">Erro: ${esc(e.message || e)}</span>`;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Salvar e próxima ficha';
+  }
+};
 
 /* ======================================================
    IMPORTAR
