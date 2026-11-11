@@ -10,7 +10,7 @@
   *{box-sizing:border-box}
   body{margin:0;font:15px/1.45 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx)}
   h1{font-size:19px;margin:0}
-  h2{font-size:16px;margin:0 0 10px}
+  h2{font-size:17px;margin:0 0 8px}
   .wrap{max-width:1100px;margin:0 auto;padding:16px}
   .top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
   .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
@@ -19,34 +19,55 @@
   .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
   label{display:block;font-size:13px;color:var(--mut);margin:10px 0 4px}
   input[type=text],input[type=email],input[type=password],input[type=number],select,textarea{width:100%;background:#0f1419;color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:9px 10px;font:inherit}
-  textarea{min-height:150px;resize:vertical;font-family:ui-monospace,Consolas,monospace;font-size:13px}
+  textarea{min-height:130px;resize:vertical}
+  #imp-texto,#fc-texto{font-family:ui-monospace,Consolas,monospace;font-size:13px}
   button{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
   button:hover{background:var(--ac2)}
   button.sec{background:#2a3544}
   button.sec:hover{background:#364559}
   button.red{background:var(--er)}
-  button:disabled{opacity:.5;cursor:not-allowed}
+  button:disabled{opacity:.45;cursor:not-allowed}
   .row{display:flex;gap:10px;flex-wrap:wrap}
   .row>*{flex:1;min-width:150px}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
   .chips{display:flex;gap:8px;flex-wrap:wrap}
-  .chip{display:inline-flex;align-items:center;gap:6px;background:#0f1419;border:1px solid var(--line);padding:6px 11px;border-radius:999px;font-size:13px;cursor:pointer;user-select:none}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:#0f1419;border:1px solid var(--line);padding:7px 12px;border-radius:999px;font-size:14px;cursor:pointer;user-select:none;margin:0;color:var(--tx)}
   .chip input{accent-color:var(--ac)}
   .chip.on{border-color:var(--ac);background:#14301f}
+  .chip .mut{font-size:12px}
   .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;margin:1px 2px 1px 0;border:1px solid var(--line);color:var(--mut);cursor:pointer;background:transparent}
   .tag.on{background:#14301f;border-color:var(--ac);color:#9be3bd}
-  .tag.id{border-color:var(--wa);color:var(--wa);cursor:default}
+  .tag.pers.on{background:#26224a;border-color:#7a6ff0;color:#c5c0ff}
+  .tag.auto{cursor:default;border-color:var(--wa);color:var(--wa);background:transparent}
+  .tag a{color:inherit;text-decoration:none;margin-left:4px;opacity:.8}
   table{width:100%;border-collapse:collapse;font-size:13px}
   th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
-  th{color:var(--mut);font-weight:600;position:sticky;top:0;background:var(--card)}
-  .scroll{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  th{color:var(--mut);font-weight:600;position:sticky;top:0;background:var(--card);z-index:1}
+  tr.sel td{background:#13261d}
+  #ct-tabela td:nth-child(3){white-space:nowrap}
+  td input[type=checkbox],th input[type=checkbox]{width:17px;height:17px;accent-color:var(--ac)}
+  .scroll{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:8px}
   .mut{color:var(--mut);font-size:13px}
   .ok{color:#7ee0a9}.bad{color:#ff8a82}.warn{color:var(--wa)}
   .msg{margin-top:10px;padding:10px;border-radius:8px;background:#0f1419;border:1px solid var(--line);white-space:pre-wrap;font-size:13px}
-  .big{font-size:22px;font-weight:700}
+  .big{font-size:26px;font-weight:700}
   [hidden]{display:none!important}
-  summary{cursor:pointer;font-weight:600}
-  details.card>summary{margin:-4px 0 4px}
-  .xs{padding:4px 9px;font-size:12px}
+  .xs{padding:5px 10px;font-size:12px}
+  summary{cursor:pointer;font-weight:600;color:var(--tx);padding:4px 0}
+  details.card>summary{margin-bottom:6px}
+  details>div,details>.row{margin-top:8px}
+  .step{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .step h2{margin:0}
+  .step .n{width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none}
+  .resumo{display:flex;align-items:baseline;gap:8px;margin:12px 0 4px}
+  .bubble{background:#144d37;border:1px solid #1d6b4d;border-radius:12px 12px 12px 2px;padding:10px 12px;white-space:pre-wrap;max-width:540px;font-size:14px;margin:4px 0 8px}
+  .bubble .saida{margin-top:8px;opacity:.6;font-size:12.5px}
+  .bar{position:sticky;top:0;z-index:5;background:#102b20;border:1px solid var(--ac);border-radius:10px;padding:10px;margin:12px 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .bar select{width:auto;min-width:190px}
+  .bar input[type=text]{width:210px}
+  .pend{margin:6px 0;padding:0;list-style:none}
+  .pend li{padding:3px 0}
+  .aviso{margin:6px 0;font-size:13px}
 </style>
 </head>
 <body>
@@ -104,29 +125,27 @@
 
     <details class="card">
       <summary>Importar uma lista/tabela (várias pessoas de uma vez)</summary>
-    <div class="card">
-      <h2>Colar dados do PEC</h2>
-      <p class="mut">Copie a tabela do PEC (nome, telefone, nascimento, sexo...) e cole abaixo. Marque os grupos a que <b>todas</b> as pessoas desta colagem pertencem. Ex.: colou o relatório de hipertensos → marque "Hipertensos". Colar a mesma pessoa em outro grupo <b>soma</b> o grupo, não apaga o anterior.</p>
-      <label>Grupos desta colagem</label>
-      <div class="chips" id="imp-grupos"></div>
-      <div class="row">
-        <div><label>Sexo (se a tabela não tiver essa coluna)</label>
-          <select id="imp-sexo"><option value="">Não informar</option><option value="F">Todas são mulheres</option><option value="M">Todos são homens</option></select></div>
-        <div><label>Microárea (opcional, vale para toda a colagem)</label><input id="imp-micro" type="text" placeholder="Ex.: 03"></div>
+      <div>
+        <p class="mut">Copie uma tabela do PEC (nome, telefone, nascimento, sexo...) e cole abaixo. Marque os grupos a que <b>todas</b> as pessoas desta colagem pertencem. Colar a mesma pessoa em outro grupo <b>soma</b> o grupo, não apaga o anterior.</p>
+        <label>Grupos desta colagem</label>
+        <div class="chips" id="imp-grupos"></div>
+        <div class="row">
+          <div><label>Sexo (se a tabela não tiver essa coluna)</label>
+            <select id="imp-sexo"><option value="">Não informar</option><option value="F">Todas são mulheres</option><option value="M">Todos são homens</option></select></div>
+          <div><label>Microárea (opcional, vale para toda a colagem)</label><input id="imp-micro" type="text" placeholder="Ex.: 03"></div>
+        </div>
+        <label>Dados colados</label>
+        <textarea id="imp-texto" placeholder="Cole aqui a tabela copiada do PEC"></textarea>
+        <div style="margin-top:10px"><button id="imp-ler">Ler dados</button></div>
+        <div id="imp-prev" hidden>
+          <h2 style="margin-top:16px">Confira as colunas</h2>
+          <p class="mut">Em cada coluna, escolha o que ela representa. Só <b>Nome</b> e <b>Telefone</b> são obrigatórios.</p>
+          <div class="scroll"><table id="imp-tabela"></table></div>
+          <p class="mut" id="imp-info"></p>
+          <button id="imp-go">Importar para o banco</button>
+          <div id="imp-res" class="msg" hidden></div>
+        </div>
       </div>
-      <label>Dados colados</label>
-      <textarea id="imp-texto" placeholder="Cole aqui a tabela copiada do PEC"></textarea>
-      <div style="margin-top:10px"><button id="imp-ler">Ler dados</button></div>
-    </div>
-
-    <div class="card" id="imp-prev" hidden>
-      <h2>Confira as colunas</h2>
-      <p class="mut">Em cada coluna, escolha o que ela representa. Eu tentei adivinhar; corrija se precisar. Só <b>Nome</b> e <b>Telefone</b> são obrigatórios.</p>
-      <div class="scroll"><table id="imp-tabela"></table></div>
-      <p class="mut" id="imp-info"></p>
-      <button id="imp-go">Importar para o banco</button>
-      <div id="imp-res" class="msg" hidden></div>
-    </div>
     </details>
   </section>
 
@@ -142,9 +161,26 @@
         <div><label>Sexo</label><select id="ct-sexo"><option value="">Todos</option><option value="F">Mulheres</option><option value="M">Homens</option></select></div>
         <div><label>Situação</label><select id="ct-ativo"><option value="">Todos</option><option value="1">Recebem avisos</option><option value="0">Pediram para sair</option></select></div>
       </div>
-      <label>Grupos (mostra quem está em <b>qualquer</b> um)</label>
+      <label>Filtrar por grupo (mostra quem está em <b>qualquer</b> um dos marcados)</label>
       <div class="chips" id="ct-grupos"></div>
-      <p class="mut" style="margin-top:10px">Clique num grupo dentro da linha para adicionar/remover daquela pessoa.</p>
+
+      <label>Grupos que você criou</label>
+      <div id="ct-meus"></div>
+
+      <div id="ct-barra" class="bar" hidden>
+        <b><span id="ct-nsel">0</span> selecionado(s)</b>
+        <button id="ct-novo-btn" class="xs">+ Criar novo grupo com eles</button>
+        <span id="ct-novo-form" style="display:inline-flex;gap:6px" hidden>
+          <input id="ct-novo-nome" type="text" placeholder="Nome do novo grupo" maxlength="40">
+          <button id="ct-novo-criar" class="xs">Criar grupo</button>
+        </span>
+        <select id="ct-add"></select>
+        <select id="ct-rem"></select>
+        <button class="sec xs" id="ct-limpa">Limpar seleção</button>
+        <div id="ct-msg" class="aviso" style="width:100%"></div>
+      </div>
+
+      <p class="mut" style="margin:10px 0 6px">Marque as caixas à esquerda para selecionar contatos e criar um grupo ou mudar o grupo de vários de uma vez. Clique num grupo dentro da linha para colocar ou tirar só aquela pessoa.</p>
       <div class="scroll"><table id="ct-tabela"></table></div>
     </div>
   </section>
@@ -152,34 +188,72 @@
   <!-- ---------- ENVIAR ---------- -->
   <section id="tab-enviar" hidden>
     <div class="card">
-      <h2>Quem vai receber</h2>
+      <div class="step"><span class="n">1</span><h2>Para quem enviar?</h2></div>
+      <p class="mut">Marque o grupo (ou os grupos). O número ao lado é quantas pessoas daquele grupo recebem avisos.</p>
       <div class="chips" id="env-grupos"></div>
-      <div class="row">
-        <div><label>Combinação</label>
-          <select id="env-modo"><option value="qualquer">Quem estiver em qualquer um dos grupos marcados</option><option value="todos">Só quem estiver em todos os grupos marcados</option></select></div>
-        <div><label>Sexo</label><select id="env-sexo"><option value="">Todos</option><option value="F">Mulheres</option><option value="M">Homens</option></select></div>
-        <div><label>Microárea (opcional)</label><input id="env-micro" type="text" placeholder="Ex.: 03"></div>
+      <div id="env-modo-box" hidden>
+        <label>Marcou mais de um grupo. Como combinar?</label>
+        <select id="env-modo">
+          <option value="qualquer">Somar: quem estiver em qualquer um dos grupos</option>
+          <option value="todos">Cruzar: só quem estiver em todos os grupos ao mesmo tempo</option>
+        </select>
       </div>
-      <p style="margin:12px 0 0"><span class="big" id="env-qtd">0</span> <span class="mut" id="env-desc"></span></p>
-      <p class="warn" id="env-aviso"></p>
+      <details style="margin-top:10px"><summary>Filtrar por sexo ou microárea (opcional)</summary>
+        <div class="row">
+          <div><label>Sexo</label><select id="env-sexo"><option value="">Todos</option><option value="F">Só mulheres</option><option value="M">Só homens</option></select></div>
+          <div><label>Microárea</label><input id="env-micro" type="text" placeholder="Ex.: 03"></div>
+        </div>
+      </details>
+      <div class="resumo"><span class="big" id="env-qtd">0</span><span id="env-desc"></span></div>
+      <div id="env-limite" class="aviso warn"></div>
+      <details><summary id="env-quem-t">Ver quem vai receber</summary><div id="env-lista" class="mut"></div></details>
     </div>
 
     <div class="card">
-      <h2>Mensagem</h2>
-      <p class="mut">Use <code>{nome}</code> para o primeiro nome e <code>{opção 1|opção 2|opção 3}</code> para variar o texto de cada pessoa. Exemplo:<br>
-      <code>{Olá|Oi|Bom dia} {nome}! {Aviso|Lembrete} da UBS: a vacinação {começa|começa} na segunda, às 8h.</code></p>
-      <textarea id="env-msg" placeholder="Escreva o aviso"></textarea>
-      <p class="warn">⚠ Escreva avisos gerais. Não cite a condição de saúde da pessoa (ex.: "você que é hipertenso"), porque a mensagem pode ser vista por outras pessoas.</p>
-      <button class="sec" id="env-exemplo">Ver 3 exemplos de variação</button>
-      <div id="env-exemplos" class="msg" hidden></div>
-      <div class="row" style="margin-top:6px">
-        <div><label>Instância da Evolution</label><input id="env-inst" type="text" placeholder="acs"></div>
-        <div><label>Espera mínima (s)</label><input id="env-min" type="number" value="20" min="15"></div>
-        <div><label>Espera máxima (s)</label><input id="env-max" type="number" value="60" min="20"></div>
-        <div><label>Máximo de envios</label><input id="env-lim" type="number" value="50" min="1"></div>
+      <div class="step"><span class="n">2</span><h2>Escreva a mensagem</h2></div>
+      <p class="mut">Comece por um modelo ou escreva do zero. Escreva um aviso geral, sem citar doença ou condição da pessoa.</p>
+      <div class="btns" id="env-modelos"></div>
+      <textarea id="env-msg" placeholder="Ex.: Olá {nome}! Aviso da UBS: a vacinação começa na segunda-feira, às 8h."></textarea>
+      <div class="btns">
+        <button class="sec xs" data-ins="{nome}">+ Inserir o primeiro nome da pessoa</button>
+        <button class="sec xs" data-ins="{Olá|Oi|Bom dia}">+ Inserir saudação variada</button>
       </div>
-      <p class="mut" id="env-tempo"></p>
-      <button id="env-go">Iniciar disparo</button>
+      <details><summary>Como funciona a variação do texto?</summary>
+        <div class="mut">Cada pessoa recebe uma versão um pouco diferente, o que ajuda o WhatsApp a não tratar o envio como mensagem repetida em massa.<br>
+        • <code>{nome}</code> vira o primeiro nome da pessoa.<br>
+        • <code>{Olá|Oi|Bom dia}</code>: escreva as opções entre chaves, separadas por barra. Cada pessoa recebe uma delas, sorteada.<br>
+        • Você pode usar quantas variações quiser no texto.</div>
+      </details>
+      <div id="env-avisos"></div>
+      <label>Assim a mensagem vai chegar no WhatsApp (exemplo)</label>
+      <div class="bubble" id="env-prev"></div>
+      <button class="sec xs" id="env-outro">Mostrar outra variação</button>
+    </div>
+
+    <div class="card">
+      <div class="step"><span class="n">3</span><h2>Revise e envie</h2></div>
+      <div id="env-resumo2" class="mut"></div>
+      <ul class="pend" id="env-pend"></ul>
+
+      <div class="row">
+        <div style="max-width:380px"><label>Nome da instância na Evolution (onde o chip está conectado)</label><input id="env-inst" type="text" placeholder="Ex.: acs"></div>
+      </div>
+      <details><summary>Opções de envio (intervalo entre mensagens e limite)</summary>
+        <div class="row">
+          <div><label>Espera mínima entre mensagens (s)</label><input id="env-min" type="number" value="20" min="15"></div>
+          <div><label>Espera máxima (s)</label><input id="env-max" type="number" value="60" min="20"></div>
+          <div><label>Máximo de envios por vez</label><input id="env-lim" type="number" value="50" min="1"></div>
+        </div>
+      </details>
+
+      <label style="margin-top:14px">Antes de enviar para todos, teste no seu próprio número</label>
+      <div class="row">
+        <div><input id="env-teste-nome" type="text" placeholder="Seu primeiro nome"></div>
+        <div><input id="env-teste-tel" type="text" placeholder="Seu celular (69) 99999-8888"></div>
+        <div style="flex:0 0 auto"><button class="sec" id="env-teste-btn">Enviar teste</button></div>
+      </div>
+
+      <div style="margin-top:16px"><button id="env-go" style="font-size:16px;padding:12px 22px">Enviar aviso</button></div>
       <div id="env-res" class="msg" hidden></div>
     </div>
   </section>
@@ -194,40 +268,76 @@ const CFG = {
 };
 /* ======================================== */
 
-const GRUPOS = [
+const BASE = [
   ['hipertenso','Hipertensos'],['diabetico','Diabéticos'],['fumante','Fumantes'],
   ['gestante','Gestantes'],['puerperio','Puérperas'],['bolsa_familia','Bolsa Família']
 ];
-const GRUPOS_FILTRO = GRUPOS.concat([['idoso','Idosos (60+)']]);
-const nomeGrupo = Object.fromEntries(GRUPOS_FILTRO);
+const BASE_KEYS = new Set(BASE.map(g => g[0]));
 
 const sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS = {
+  get(k, d = ''){ try { const v = localStorage.getItem('uba_' + k); return v === null ? d : v; } catch (e) { return d; } },
+  set(k, v){ try { localStorage.setItem('uba_' + k, v); } catch (e) {} }
+};
 let CONTATOS = [];
-let SESSAO = null;
+let ULTIMA = [];
+const SEL = new Set();
 
 /* ---------- utilidades ---------- */
 function idade(iso){
-  if(!iso) return null;
+  if (!iso) return null;
   const n = new Date(iso + 'T00:00:00'), h = new Date();
   let a = h.getFullYear() - n.getFullYear();
   const m = h.getMonth() - n.getMonth();
   if (m < 0 || (m === 0 && h.getDate() < n.getDate())) a--;
   return a;
 }
-const ehIdoso = c => { const i = idade(c.data_nascimento); return i !== null && i >= 60; };
-const temGrupo = (c, g) => g === 'idoso' ? ehIdoso(c) : (c.grupos || []).includes(g);
+const ehIdosoAuto = c => { const i = idade(c.data_nascimento); return i !== null && i >= 60; };
+function temGrupo(c, g){
+  const gs = c.grupos || [];
+  return g === 'idoso' ? (ehIdosoAuto(c) || gs.includes('idoso')) : gs.includes(g);
+}
+function nomesPersonalizados(){
+  const s = new Set();
+  CONTATOS.forEach(c => (c.grupos || []).forEach(g => { if (!BASE_KEYS.has(g) && g !== 'idoso') s.add(g); }));
+  return [...s].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+}
+function rotulo(k){
+  const b = BASE.find(g => g[0] === k);
+  return b ? b[1] : (k === 'idoso' ? 'Idosos' : k);
+}
+function todosGrupos(){
+  return BASE.concat([['idoso', 'Idosos (60+)']], nomesPersonalizados().map(g => [g, g]));
+}
+function conta(k, soAtivos){
+  return CONTATOS.filter(c => (!soAtivos || c.ativo) && (k === '*' || temGrupo(c, k))).length;
+}
+const primeiroNome = n => { const p = String(n || '').trim().split(/\s+/)[0] || ''; return p.charAt(0).toUpperCase() + p.slice(1).toLowerCase(); };
+const fmtTel = n => n ? `(${n.slice(2, 4)}) ${n.slice(4, 9)}-${n.slice(9)}` : '';
 
-function chips(el, lista, prefixo, aoMudar){
-  el.innerHTML = lista.map(([k, r]) =>
-    `<label class="chip"><input type="checkbox" value="${k}" data-p="${prefixo}"> ${r}</label>`).join('');
+const marcados = el => [...el.querySelectorAll('input:checked')].map(i => i.value);
+function desenhaChips(el, lista, aoMudar, contagem){
+  const antes = new Set(marcados(el));
+  el.innerHTML = lista.map(([k, r]) => {
+    const on = antes.has(k);
+    const n = contagem ? ` <span class="mut">${contagem(k)}</span>` : '';
+    return `<label class="chip ${on ? 'on' : ''}"><input type="checkbox" value="${esc(k)}" ${on ? 'checked' : ''}> ${esc(r)}${n}</label>`;
+  }).join('');
   el.querySelectorAll('input').forEach(i => i.addEventListener('change', () => {
     i.parentElement.classList.toggle('on', i.checked);
-    if (aoMudar) aoMudar();
+    if (aoMudar) aoMudar(i);
   }));
 }
-const marcados = el => [...el.querySelectorAll('input:checked')].map(i => i.value);
+function refazChips(){
+  const g = todosGrupos();
+  const semIdoso = g.filter(x => x[0] !== 'idoso');
+  desenhaChips($('#fc-grupos'), semIdoso);
+  desenhaChips($('#imp-grupos'), semIdoso);
+  desenhaChips($('#ct-grupos'), g, renderContatos, k => conta(k, false));
+  desenhaChips($('#env-grupos'), [['*', 'Todos os contatos']].concat(g), aoMudarEnvio, k => conta(k, true));
+}
 
 function filtrar(lista, f){
   return lista.filter(c => {
@@ -237,7 +347,8 @@ function filtrar(lista, f){
     if (f.ativo === '0' && c.ativo) return false;
     if (f.busca){
       const b = f.busca.toLowerCase();
-      if (!c.nome.toLowerCase().includes(b) && !c.telefone.includes(b.replace(/\D/g,'') || '###')) return false;
+      const dig = b.replace(/\D/g, '');
+      if (!c.nome.toLowerCase().includes(b) && !(dig && c.telefone.includes(dig))) return false;
     }
     if (f.grupos && f.grupos.length){
       const fn = f.modo === 'todos' ? 'every' : 'some';
@@ -258,14 +369,13 @@ $('#lg-senha').addEventListener('keydown', e => { if (e.key === 'Enter') entrar(
 $('#sair').onclick = () => sb.auth.signOut();
 
 function mostrar(sessao){
-  SESSAO = sessao;
   $('#login').hidden = !!sessao;
   $('#app').hidden = !sessao;
   if (sessao){
     $('#usuario').textContent = sessao.user.email;
     carregar();
   } else {
-    CONTATOS = [];
+    CONTATOS = []; SEL.clear();
   }
 }
 sb.auth.getSession().then(({ data }) => mostrar(data.session));
@@ -274,15 +384,15 @@ sb.auth.onAuthStateChange((_e, s) => mostrar(s));
 /* ---------- abas ---------- */
 document.querySelectorAll('.tab').forEach(b => b.onclick = () => {
   document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === b));
-  ['importar','contatos','enviar'].forEach(t => $('#tab-' + t).hidden = (t !== b.dataset.tab));
+  ['importar', 'contatos', 'enviar'].forEach(t => $('#tab-' + t).hidden = (t !== b.dataset.tab));
   if (b.dataset.tab === 'contatos') renderContatos();
-  if (b.dataset.tab === 'enviar') atualizaPublico();
+  if (b.dataset.tab === 'enviar') atualizaEnvio();
 });
 
 /* ---------- carregar contatos ---------- */
 async function carregar(){
   let todos = [], de = 0;
-  for(;;){
+  for (;;){
     const { data, error } = await sb.from('contatos').select('*').order('nome').range(de, de + 999);
     if (error){ alert('Erro ao carregar: ' + error.message); return; }
     todos = todos.concat(data);
@@ -290,8 +400,11 @@ async function carregar(){
     de += 1000;
   }
   CONTATOS = todos;
+  CONTATOS.forEach(c => { if (!Array.isArray(c.grupos)) c.grupos = []; });
+  [...SEL].forEach(id => { if (!CONTATOS.some(c => c.id === id)) SEL.delete(id); });
+  refazChips();
   renderContatos();
-  atualizaPublico();
+  atualizaEnvio();
 }
 
 /* ======================================================
@@ -528,21 +641,19 @@ function extraiTelefones(tokens) {
     const limpo = t.replace(/(telefone( celular| residencial| comercial| de contato| para contato)?|celular|fone|contato|whats(app)?)/gi, '')
                    .replace(/[:*]/g, '').trim();
     if (!/^\+?[\d\s().-]{10,20}$/.test(limpo)) return;
-    if (/\d{3}\.\d{3}\.\d{3}/.test(limpo)) return;                  // CPF
+    if (/\d{3}\.\d{3}\.\d{3}/.test(limpo)) return;
     const marcado = rot.test(t) || (i > 0 && rot.test(tokens[i - 1])) || (i > 1 && rot.test(tokens[i - 2]));
-    if (!marcado && !/[()]/.test(limpo)) return;                     // sem rotulo: so aceita "(DD) ..."
+    if (!marcado && !/[()]/.test(limpo)) return;
     if (!marcado && validCpf(onlyDigits(limpo))) return;
     const n = normTel(limpo);
-    if (!n || n.charAt(4) !== '9' || vistos.has(n)) return;         // so celular
+    if (!n || n.charAt(4) !== '9' || vistos.has(n)) return;
     vistos.add(n);
     (marcado ? comRot : soltos).push(n);
   });
   return comRot.concat(soltos);
 }
-const fmtTel = n => n ? `(${n.slice(2, 4)}) ${n.slice(4, 9)}-${n.slice(9)}` : '';
 
 /* ----- tela da ficha ----- */
-chips($('#fc-grupos'), GRUPOS, 'fc');
 let FC_TIMER = null;
 $('#fc-texto').addEventListener('input', () => { clearTimeout(FC_TIMER); FC_TIMER = setTimeout(lerFicha, 250); });
 
@@ -623,7 +734,7 @@ $('#fc-salvar').onclick = async () => {
     if (e) throw e;
     r.hidden = false;
     r.innerHTML = `<span class="ok">Salvo:</span> ${esc(final.nome)} ${porTel || porCns ? '(já existia, atualizado)' : '(novo)'}` +
-      `\nGrupos: ${final.grupos.length ? final.grupos.map(g => nomeGrupo[g]).join(', ') : 'nenhum'}`;
+      `\nGrupos: ${final.grupos.length ? esc(final.grupos.map(rotulo).join(', ')) : 'nenhum'}`;
     $('#fc-texto').value = ''; $('#fc-form').hidden = true;
     await carregar();
     $('#fc-texto').focus();
@@ -635,10 +746,8 @@ $('#fc-salvar').onclick = async () => {
 };
 
 /* ======================================================
-   IMPORTAR
+   IMPORTAR LISTA/TABELA
    ====================================================== */
-chips($('#imp-grupos'), GRUPOS, 'imp');
-
 const CAMPOS = [['', 'Ignorar'], ['nome','Nome'], ['telefone','Telefone'], ['cns','CNS'],
                 ['nascimento','Nascimento'], ['sexo','Sexo'], ['microarea','Microárea']];
 let LINHAS = [], MAPA = [];
@@ -668,7 +777,6 @@ function adivinha(cabecalho, amostra){
       else if (/nome/.test(t)) mapa[i] = 'nome';
     });
   }
-  // completa o que faltou olhando o conteúdo
   for (let i = 0; i < n; i++){
     if (mapa[i]) continue;
     const col = amostra.map(r => r[i] || '').filter(Boolean);
@@ -723,8 +831,8 @@ function normTel(bruto){
   const ddd = n.slice(2, 4), resto = n.slice(4);
   if (!/^[1-9][1-9]$/.test(ddd)) return null;
   if (resto.length === 8){
-    if (/^[2-5]/.test(resto)) return null;       // telefone fixo
-    n = '55' + ddd + '9' + resto;                 // celular antigo sem o 9
+    if (/^[2-5]/.test(resto)) return null;
+    n = '55' + ddd + '9' + resto;
   }
   return n.length === 13 ? n : null;
 }
@@ -767,7 +875,7 @@ $('#imp-go').onclick = async () => {
       grupos: grupos.slice()
     };
     if (!novo.sexo) novo.sexo = sexoPadrao;
-    if (mapa.has(tel)){                    // repetido na colagem: junta
+    if (mapa.has(tel)){
       const a = mapa.get(tel);
       Object.keys(novo).forEach(k => { if (k !== 'grupos' && !a[k]) a[k] = novo[k]; });
     } else mapa.set(tel, novo);
@@ -777,7 +885,6 @@ $('#imp-go').onclick = async () => {
 
   const btn = $('#imp-go'); btn.disabled = true; btn.textContent = 'Importando...';
   try {
-    // busca os que já existem para somar grupos e não apagar dados
     const existentes = new Map();
     for (let i = 0; i < lista.length; i += 100){
       const fatia = lista.slice(i, i + 100).map(c => c.telefone);
@@ -808,8 +915,8 @@ $('#imp-go').onclick = async () => {
       if (error) throw error;
     }
     const r = $('#imp-res'); r.hidden = false;
-    r.innerHTML = `<span class="ok">Importação concluída.</span>\nNovos: ${novos}\nJá existiam (atualizados): ${atualizados}\nSem telefone de celular válido (ignorados): ${semTel}\nSem nome (ignorados): ${semNome}` +
-      (grupos.length ? `\nGrupos aplicados: ${grupos.map(g => nomeGrupo[g]).join(', ')}` : '\nNenhum grupo marcado nesta colagem.');
+    r.innerHTML = `<span class="ok">Importação concluída.</span>\nNovos: ${novos}\nJá existiam (atualizados): ${atualizados}\nSem celular válido (ignorados): ${semTel}\nSem nome (ignorados): ${semNome}` +
+      (grupos.length ? `\nGrupos aplicados: ${esc(grupos.map(rotulo).join(', '))}` : '\nNenhum grupo marcado nesta colagem.');
     await carregar();
   } catch (e){
     const r = $('#imp-res'); r.hidden = false;
@@ -822,9 +929,25 @@ $('#imp-go').onclick = async () => {
 /* ======================================================
    CONTATOS
    ====================================================== */
-chips($('#ct-grupos'), GRUPOS_FILTRO, 'ct', renderContatos);
-['ct-busca','ct-sexo','ct-ativo'].forEach(id => $('#' + id).addEventListener('input', renderContatos));
+['ct-busca', 'ct-sexo', 'ct-ativo'].forEach(id => $('#' + id).addEventListener('input', renderContatos));
 $('#ct-recarregar').onclick = carregar;
+
+const selecionados = () => [...SEL].filter(id => CONTATOS.some(c => c.id === id));
+
+function tagsDe(c){
+  const gs = c.grupos || [];
+  let h = BASE.map(([k, r]) =>
+    `<span class="tag ${gs.includes(k) ? 'on' : ''}" data-id="${c.id}" data-g="${esc(k)}">${esc(r)}</span>`).join('');
+  if (ehIdosoAuto(c)){
+    h += '<span class="tag auto" title="Marcado automaticamente pela idade (60 anos ou mais)">Idoso</span>';
+  } else {
+    const man = gs.includes('idoso');
+    h += `<span class="tag ${man ? 'on' : ''}" data-id="${c.id}" data-g="idoso" title="Clique para marcar manualmente como idoso (a idade só é calculada se houver data de nascimento)">Idoso</span>`;
+  }
+  h += gs.filter(g => !BASE_KEYS.has(g) && g !== 'idoso').map(g =>
+    `<span class="tag on pers" data-id="${c.id}" data-g="${esc(g)}" title="Clique para tirar do grupo">${esc(g)}</span>`).join('');
+  return h;
+}
 
 function renderContatos(){
   const f = {
@@ -832,69 +955,203 @@ function renderContatos(){
     grupos: marcados($('#ct-grupos')), modo: 'qualquer'
   };
   const lista = filtrar(CONTATOS, f);
+  ULTIMA = lista;
   $('#ct-total').textContent = `${lista.length} de ${CONTATOS.length}`;
   const mostra = lista.slice(0, 300);
-  let h = '<tr><th>Nome</th><th>Telefone</th><th>Sexo</th><th>Idade</th><th>Grupos</th><th>Recebe</th><th></th></tr>';
+  let h = `<tr><th style="width:34px"><input type="checkbox" id="ct-todos" title="Selecionar todos os ${lista.length} da lista"></th>` +
+          '<th>Nome</th><th>Celular</th><th>Sexo</th><th>Idade</th><th>Grupos</th><th>Recebe</th><th></th></tr>';
   for (const c of mostra){
-    const tags = GRUPOS.map(([k, r]) =>
-      `<span class="tag ${c.grupos.includes(k) ? 'on' : ''}" data-id="${c.id}" data-g="${k}">${r}</span>`).join('') +
-      (ehIdoso(c) ? '<span class="tag id">Idoso</span>' : '');
-    h += `<tr><td>${esc(c.nome)}</td><td>${c.telefone}</td><td>${c.sexo || ''}</td><td>${idade(c.data_nascimento) ?? ''}</td>` +
-      `<td>${tags}</td>` +
+    h += `<tr class="${SEL.has(c.id) ? 'sel' : ''}">` +
+      `<td><input type="checkbox" data-sel="${c.id}" ${SEL.has(c.id) ? 'checked' : ''}></td>` +
+      `<td>${esc(c.nome)}</td><td>${fmtTel(c.telefone)}</td><td>${c.sexo || ''}</td><td>${idade(c.data_nascimento) ?? ''}</td>` +
+      `<td>${tagsDe(c)}</td>` +
       `<td><input type="checkbox" ${c.ativo ? 'checked' : ''} data-ativo="${c.id}" title="Desmarque se a pessoa pediu para sair"></td>` +
       `<td><button class="red xs" data-del="${c.id}">Excluir</button></td></tr>`;
   }
-  if (!mostra.length) h += '<tr><td colspan="7" class="mut">Nenhum contato.</td></tr>';
-  if (lista.length > 300) h += `<tr><td colspan="7" class="mut">Mostrando 300 de ${lista.length}. Use os filtros para refinar.</td></tr>`;
+  if (!mostra.length) h += '<tr><td colspan="8" class="mut">Nenhum contato.</td></tr>';
+  if (lista.length > 300) h += `<tr><td colspan="8" class="mut">Mostrando 300 de ${lista.length}. Use os filtros para refinar (o botão de selecionar todos vale para os ${lista.length}).</td></tr>`;
   $('#ct-tabela').innerHTML = h;
+  atualizaTodos();
+  desenhaMeusGrupos();
+  atualizaBarra();
 }
+
+function atualizaTodos(){
+  const t = $('#ct-todos'); if (!t) return;
+  const n = ULTIMA.filter(c => SEL.has(c.id)).length;
+  t.checked = ULTIMA.length > 0 && n === ULTIMA.length;
+  t.indeterminate = n > 0 && n < ULTIMA.length;
+}
+
+function desenhaMeusGrupos(){
+  const p = nomesPersonalizados();
+  $('#ct-meus').innerHTML = p.length
+    ? p.map(g => {
+        const n = CONTATOS.filter(c => (c.grupos || []).includes(g)).length;
+        return `<span class="tag on pers" style="cursor:default;font-size:12px;padding:3px 10px">${esc(g)} · ${n} <a href="#" data-delg="${esc(g)}" title="Excluir este grupo (as pessoas continuam nos contatos)">✕</a></span>`;
+      }).join(' ')
+    : '<span class="mut">Você ainda não criou nenhum. Marque contatos na lista abaixo e clique em "Criar novo grupo com eles".</span>';
+}
+
+function atualizaBarra(){
+  const n = selecionados().length;
+  $('#ct-barra').hidden = n === 0;
+  $('#ct-nsel').textContent = n;
+  const gs = BASE.concat(nomesPersonalizados().map(g => [g, g]));
+  const op = (t) => `<option value="">${t}</option>` + gs.map(([k, r]) => `<option value="${esc(k)}">${esc(r)}</option>`).join('');
+  $('#ct-add').innerHTML = op('Adicionar a um grupo...');
+  $('#ct-rem').innerHTML = op('Tirar de um grupo...');
+  if (!n){ $('#ct-novo-form').hidden = true; $('#ct-msg').innerHTML = ''; }
+}
+
+async function atualizaGrupos(ids, fn){
+  const alvo = CONTATOS.filter(c => ids.has(c.id));
+  let erros = 0, msg = '', feitos = 0;
+  for (let i = 0; i < alvo.length; i += 10){
+    await Promise.all(alvo.slice(i, i + 10).map(async c => {
+      const antes = c.grupos || [], novos = fn(antes);
+      if (novos.length === antes.length && novos.every(g => antes.includes(g))) return;
+      const { error } = await sb.from('contatos').update({ grupos: novos }).eq('id', c.id);
+      if (error){ erros++; msg = error.message || String(error); } else { c.grupos = novos; feitos++; }
+    }));
+  }
+  refazChips(); renderContatos(); atualizaEnvio();
+  return { erros, msg, feitos };
+}
+function textoErroGrupo(r){
+  if (!r.erros) return '';
+  if (/check constraint|contatos_grupos/i.test(r.msg))
+    return 'O banco ainda só aceita os 6 grupos fixos. Rode o arquivo supabase-grupos-livres.sql no Supabase (SQL Editor) e tente de novo.';
+  return 'Erro: ' + r.msg;
+}
+function mostraMsg(html){ $('#ct-msg').innerHTML = html; }
+
+$('#ct-limpa').onclick = () => { SEL.clear(); renderContatos(); };
+
+$('#ct-novo-btn').onclick = () => {
+  const f = $('#ct-novo-form'); f.hidden = !f.hidden;
+  if (!f.hidden) $('#ct-novo-nome').focus();
+};
+$('#ct-novo-nome').addEventListener('keydown', e => { if (e.key === 'Enter') $('#ct-novo-criar').click(); });
+$('#ct-novo-criar').onclick = async () => {
+  const semAc = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  let nome = $('#ct-novo-nome').value.replace(/\s+/g, ' ').trim();
+  if (nome.length < 2 || nome.length > 40) return alert('Dê um nome ao grupo, com 2 a 40 letras.');
+  const reservados = BASE.flatMap(([k, r]) => [k, semAc(r)]).concat(['idoso', 'idosos', 'idosos (60+)', 'todos', 'todos os contatos']);
+  if (reservados.includes(semAc(nome))) return alert('Esse nome já é de um grupo padrão. Use outro nome, ou escolha o grupo em "Adicionar a um grupo".');
+  const existente = nomesPersonalizados().find(g => semAc(g) === semAc(nome));
+  if (existente) nome = existente;
+  const ids = new Set(selecionados());
+  if (!ids.size) return alert('Marque ao menos um contato na lista.');
+  const btn = $('#ct-novo-criar'); btn.disabled = true; btn.textContent = 'Criando...';
+  const r = await atualizaGrupos(ids, gs => gs.includes(nome) ? gs : [...gs, nome]);
+  btn.disabled = false; btn.textContent = 'Criar grupo';
+  if (r.erros){ mostraMsg(`<span class="bad">${esc(textoErroGrupo(r))}</span>`); return; }
+  $('#ct-novo-nome').value = ''; $('#ct-novo-form').hidden = true;
+  SEL.clear(); renderContatos();
+  mostraMsg(`<span class="ok">Grupo "${esc(nome)}" ${existente ? 'atualizado' : 'criado'} com ${ids.size} pessoa(s).</span> Ele já aparece nos filtros e na aba Enviar aviso.`);
+  $('#ct-barra').hidden = false;
+};
+
+$('#ct-add').onchange = async e => {
+  const g = e.target.value; e.target.value = ''; if (!g) return;
+  const ids = new Set(selecionados());
+  if (!confirm(`Adicionar ${ids.size} pessoa(s) ao grupo "${rotulo(g)}"?`)) return;
+  const r = await atualizaGrupos(ids, gs => gs.includes(g) ? gs : [...gs, g]);
+  mostraMsg(r.erros ? `<span class="bad">${esc(textoErroGrupo(r))}</span>` : `<span class="ok">${r.feitos} pessoa(s) adicionadas a "${esc(rotulo(g))}".</span>`);
+};
+$('#ct-rem').onchange = async e => {
+  const g = e.target.value; e.target.value = ''; if (!g) return;
+  const ids = new Set(selecionados());
+  if (!confirm(`Tirar ${ids.size} pessoa(s) do grupo "${rotulo(g)}"?`)) return;
+  const r = await atualizaGrupos(ids, gs => gs.filter(x => x !== g));
+  mostraMsg(r.erros ? `<span class="bad">${esc(textoErroGrupo(r))}</span>` : `<span class="ok">${r.feitos} pessoa(s) saíram de "${esc(rotulo(g))}".</span>`);
+};
+
+$('#ct-meus').addEventListener('click', async e => {
+  const a = e.target.closest('[data-delg]'); if (!a) return;
+  e.preventDefault();
+  const g = a.dataset.delg;
+  const ids = new Set(CONTATOS.filter(c => (c.grupos || []).includes(g)).map(c => c.id));
+  if (!confirm(`Excluir o grupo "${g}"?\n${ids.size} pessoa(s) saem do grupo, mas continuam nos contatos.`)) return;
+  const r = await atualizaGrupos(ids, gs => gs.filter(x => x !== g));
+  if (r.erros) alert(textoErroGrupo(r));
+});
 
 $('#ct-tabela').addEventListener('click', async e => {
   const t = e.target;
-  if (t.dataset.g){
+  if (t.id === 'ct-todos'){
+    ULTIMA.forEach(c => t.checked ? SEL.add(c.id) : SEL.delete(c.id));
+    renderContatos();
+  } else if (t.dataset.sel){
+    if (t.checked) SEL.add(t.dataset.sel); else SEL.delete(t.dataset.sel);
+    t.closest('tr').classList.toggle('sel', t.checked);
+    atualizaTodos(); atualizaBarra();
+  } else if (t.dataset.g){
     const c = CONTATOS.find(x => x.id === t.dataset.id);
     const g = t.dataset.g;
     const novos = c.grupos.includes(g) ? c.grupos.filter(x => x !== g) : [...c.grupos, g];
     const { error } = await sb.from('contatos').update({ grupos: novos }).eq('id', c.id);
     if (error) return alert(error.message);
-    c.grupos = novos; renderContatos();
+    c.grupos = novos; refazChips(); renderContatos(); atualizaEnvio();
   } else if (t.dataset.ativo){
     const c = CONTATOS.find(x => x.id === t.dataset.ativo);
     const ativo = t.checked;
     const { error } = await sb.from('contatos').update({ ativo, saiu_em: ativo ? null : new Date().toISOString() }).eq('id', c.id);
     if (error){ t.checked = !ativo; return alert(error.message); }
-    c.ativo = ativo; atualizaPublico();
+    c.ativo = ativo; refazChips(); atualizaEnvio();
   } else if (t.dataset.del){
     const c = CONTATOS.find(x => x.id === t.dataset.del);
     if (!confirm(`Excluir ${c.nome} do banco? Isso não pode ser desfeito.`)) return;
     const { error } = await sb.from('contatos').delete().eq('id', c.id);
     if (error) return alert(error.message);
-    CONTATOS = CONTATOS.filter(x => x.id !== c.id); renderContatos(); atualizaPublico();
+    CONTATOS = CONTATOS.filter(x => x.id !== c.id); SEL.delete(c.id);
+    refazChips(); renderContatos(); atualizaEnvio();
   }
 });
 
 /* ======================================================
-   ENVIAR
+   ENVIAR AVISO
    ====================================================== */
-chips($('#env-grupos'), GRUPOS_FILTRO, 'env', atualizaPublico);
-['env-modo','env-sexo','env-micro','env-min','env-max','env-lim'].forEach(id => $('#' + id).addEventListener('input', atualizaPublico));
+const MODELOS = [
+  ['Vacinação', '{Olá|Oi|Bom dia} {nome}! {Aviso|Lembrete} da UBS: a campanha de vacinação {começa|inicia} no dia [DATA], a partir das [HORA]. {Traga|Leve} o cartão de vacina.'],
+  ['Atendimento especial', '{Olá|Oi|Bom dia} {nome}! {Aviso|Comunicado} da UBS: teremos atendimento {especial|diferenciado} no dia [DATA], das [HORA] às [HORA]. {Procure|Venha à} a unidade.'],
+  ['Aviso geral', '{Olá|Oi|Bom dia} {nome}! {Aviso|Recado} da UBS: [ESCREVA AQUI O AVISO].']
+];
+$('#env-modelos').innerHTML = MODELOS.map((m, i) => `<button class="sec xs" data-modelo="${i}">${esc(m[0])}</button>`).join('');
+$('#env-modelos').addEventListener('click', e => {
+  const b = e.target.closest('[data-modelo]'); if (!b) return;
+  const area = $('#env-msg');
+  if (area.value.trim() && !confirm('Substituir o texto atual por este modelo?')) return;
+  area.value = MODELOS[+b.dataset.modelo][1];
+  atualizaEnvio();
+});
+document.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => {
+  const a = $('#env-msg'), ini = a.selectionStart ?? a.value.length, fim = a.selectionEnd ?? a.value.length;
+  a.value = a.value.slice(0, ini) + b.dataset.ins + a.value.slice(fim);
+  a.focus(); const pos = ini + b.dataset.ins.length; a.setSelectionRange(pos, pos);
+  atualizaEnvio();
+});
+
+function aoMudarEnvio(i){
+  const el = $('#env-grupos');
+  if (i && i.checked){
+    if (i.value === '*'){
+      el.querySelectorAll('input').forEach(x => { if (x !== i){ x.checked = false; x.parentElement.classList.remove('on'); } });
+    } else {
+      const t = el.querySelector('input[value="*"]');
+      if (t){ t.checked = false; t.parentElement.classList.remove('on'); }
+    }
+  }
+  atualizaEnvio();
+}
 
 function publico(){
-  const grupos = marcados($('#env-grupos'));
-  const f = { sexo: $('#env-sexo').value, micro: $('#env-micro').value.trim(), grupos, modo: $('#env-modo').value, ativo: '1' };
-  return { grupos, lista: filtrar(CONTATOS, f) };
-}
-function atualizaPublico(){
-  const { grupos, lista } = publico();
-  const lim = Math.max(1, parseInt($('#env-lim').value) || 50);
-  $('#env-qtd').textContent = lista.length;
-  $('#env-desc').textContent = lista.length === 1 ? 'contato será alcançado' : 'contatos serão alcançados';
-  $('#env-aviso').textContent = grupos.length ? '' : 'Nenhum grupo marcado: o aviso iria para TODOS os contatos que recebem avisos.';
-  const mn = Math.max(15, parseInt($('#env-min').value) || 20);
-  const mx = Math.max(mn, parseInt($('#env-max').value) || 60);
-  const n = Math.min(lista.length, lim);
-  const seg = n * (mn + mx) / 2;
-  $('#env-tempo').textContent = n ? `Serão enviados ${n} (limite ${lim}). Tempo estimado: ${Math.round(seg / 60)} min.` : '';
+  const gs = marcados($('#env-grupos'));
+  const todos = gs.includes('*');
+  const f = { sexo: $('#env-sexo').value, micro: $('#env-micro').value.trim(), grupos: todos ? [] : gs, modo: $('#env-modo').value, ativo: '1' };
+  const lista = (todos || gs.length) ? filtrar(CONTATOS, f) : [];
+  return { gs: gs.filter(g => g !== '*'), todos, lista };
 }
 
 const sorteia = a => a[Math.floor(Math.random() * a.length)];
@@ -903,54 +1160,139 @@ function girar(t){
   do { ant = t; t = t.replace(/\{([^{}|]+(?:\|[^{}|]*)+)\}/g, (m, g) => sorteia(g.split('|'))); } while (t !== ant);
   return t;
 }
-$('#env-exemplo').onclick = () => {
+function montaTexto(modelo, nome){
+  return girar(modelo.replace(/\{nome\}/gi, nome))
+    .replace(/[ \t]+([,!.?])/g, '$1').replace(/[ \t]{2,}/g, ' ').trim();
+}
+const fmtTempo = s => s < 90 ? 'menos de 2 minutos' : s < 3600 ? Math.round(s / 60) + ' minutos' : (s / 3600).toFixed(1).replace('.', ',') + ' horas';
+const temColchetes = m => /\[[^\]]*\]/.test(m);
+
+function atualizaPrevia(){
   const m = $('#env-msg').value.trim();
-  if (!m) return alert('Escreva a mensagem primeiro.');
-  const nomes = ['Maria', 'João', 'Ana'];
-  $('#env-exemplos').hidden = false;
-  $('#env-exemplos').textContent = nomes.map(n => girar(m.replace(/\{nome\}/gi, n))).join('\n\n———\n\n');
+  const box = $('#env-prev');
+  if (!m){ box.innerHTML = '<span class="mut">Escreva a mensagem para ver como ela vai chegar.</span>'; return; }
+  const { lista } = publico();
+  const nome = primeiroNome(lista[0] ? lista[0].nome : 'Maria');
+  const t = montaTexto(m, nome);
+  const saida = /sair/i.test(t) ? '' : '<div class="saida">Para deixar de receber, é só responder SAIR. <i>(esta frase final é acrescentada sozinha e varia)</i></div>';
+  box.innerHTML = esc(t) + saida;
+}
+$('#env-outro').onclick = atualizaPrevia;
+
+function pendBase(){
+  const p = [];
+  const m = $('#env-msg').value.trim();
+  if (!m) p.push('Escreva a mensagem (passo 2).');
+  else if (temColchetes(m)) p.push('Troque os trechos entre [colchetes] pelo texto real (passo 2).');
+  if (!$('#env-inst').value.trim()) p.push('Informe o nome da instância da Evolution (passo 3).');
+  if (CFG.N8N_WEBHOOK.includes('SEU-N8N')) p.push('Falta colocar a URL do webhook do n8n no começo do arquivo (CFG).');
+  return p;
+}
+
+function atualizaEnvio(){
+  const { gs, todos, lista } = publico();
+  const lim = Math.max(1, parseInt($('#env-lim').value) || 50);
+  const n = Math.min(lista.length, lim);
+  $('#env-modo-box').hidden = !(gs.length > 1 && !todos);
+  $('#env-qtd').textContent = lista.length;
+  $('#env-desc').textContent = (!gs.length && !todos) ? 'Marque um ou mais grupos acima para começar.'
+    : (lista.length === 1 ? 'pessoa vai receber este aviso' : 'pessoas vão receber este aviso');
+  $('#env-limite').textContent = lista.length > lim
+    ? `Atenção: há ${lista.length} pessoas, mas o limite por envio é ${lim}. Serão sorteadas ${lim}. Para enviar a todos, aumente o limite em "Opções de envio" (recomendo lotes pequenos, para proteger o número).` : '';
+  $('#env-quem-t').textContent = `Ver quem vai receber (${lista.length})`;
+  $('#env-lista').textContent = lista.length
+    ? lista.slice(0, 200).map(c => c.nome).join(' · ') + (lista.length > 200 ? ` · e mais ${lista.length - 200}` : '')
+    : 'Ninguém selecionado ainda.';
+
+  const m = $('#env-msg').value;
+  const av = [];
+  if (temColchetes(m)) av.push(['bad', 'Há trechos entre [colchetes] para preencher. Troque pelo texto real antes de enviar.']);
+  if (/hipertens|diabet|gestan|gr[aá]vid|puerp|fumant|bolsa fam|tuberc|\bhiv\b|aids|s[ií]filis/i.test(m)) av.push(['warn', 'A mensagem cita uma condição de saúde. Prefira um aviso geral: outras pessoas podem ver o celular do paciente.']);
+  if (m.trim().length > 600) av.push(['warn', 'Mensagem longa. Textos curtos têm menos chance de serem denunciados como spam.']);
+  $('#env-avisos').innerHTML = av.map(([c, t]) => `<div class="aviso ${c}">⚠ ${esc(t)}</div>`).join('');
+  atualizaPrevia();
+
+  const mn = Math.max(15, parseInt($('#env-min').value) || 20);
+  const mx = Math.max(mn, parseInt($('#env-max').value) || 60);
+  $('#env-resumo2').innerHTML = n
+    ? `<b>${n}</b> pessoa(s) vão receber, com ${mn} a ${mx} segundos entre cada mensagem. Tempo estimado: <b>${fmtTempo(n * (mn + mx) / 2)}</b>. Você pode fechar esta página depois de enviar.`
+    : 'Escolha para quem enviar no passo 1.';
+
+  const p = [];
+  if (!lista.length) p.push('Escolha para quem enviar (passo 1).');
+  p.push(...pendBase());
+  $('#env-pend').innerHTML = p.length
+    ? p.map(t => `<li class="warn">⚠ ${esc(t)}</li>`).join('')
+    : '<li class="ok">✓ Tudo pronto para enviar. Se ainda não fez, mande um teste para o seu número primeiro.</li>';
+  const go = $('#env-go');
+  go.disabled = p.length > 0;
+  go.textContent = n ? `Enviar para ${n} pessoa${n > 1 ? 's' : ''}` : 'Enviar aviso';
+}
+['env-msg', 'env-modo', 'env-sexo', 'env-micro', 'env-min', 'env-max', 'env-lim', 'env-inst'].forEach(id =>
+  $('#' + id).addEventListener('input', () => { if (id === 'env-inst') LS.set('inst', $('#env-inst').value); atualizaEnvio(); }));
+
+async function dispara(contatos, listaNome, limite){
+  const { data: sess } = await sb.auth.getSession();
+  if (!sess.session) throw new Error('Sessão expirada. Entre de novo.');
+  const mn = Math.max(15, parseInt($('#env-min').value) || 20);
+  const mx = Math.max(mn, parseInt($('#env-max').value) || 60);
+  const resp = await fetch(CFG.N8N_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      jwt: sess.session.access_token,
+      lista: listaNome,
+      instancia: $('#env-inst').value.trim(),
+      mensagem: $('#env-msg').value.trim(),
+      espera_min: mn, espera_max: mx, limite,
+      contatos
+    })
+  });
+  if (!resp.ok) throw new Error('O n8n respondeu ' + resp.status);
+  return { mn, mx };
+}
+const erroN8n = e => `<span class="bad">Não consegui falar com o n8n: ${esc(e.message || e)}</span>\nConfira a URL do webhook, se o workflow está ativo e se o CORS está liberado no nó Webhook.`;
+
+$('#env-teste-btn').onclick = async () => {
+  const tel = normTel($('#env-teste-tel').value);
+  if (!tel) return alert('Celular de teste inválido. Use DDD + número, ex.: 69 99999-8888.');
+  const p = pendBase(); if (p.length) return alert(p.join('\n'));
+  LS.set('teste_tel', $('#env-teste-tel').value); LS.set('teste_nome', $('#env-teste-nome').value);
+  const btn = $('#env-teste-btn'); btn.disabled = true;
+  const r = $('#env-res'); r.hidden = false; r.textContent = 'Enviando teste...';
+  try {
+    await dispara([{ nome: $('#env-teste-nome').value.trim() || 'Teste', telefone: tel }], 'Teste', 1);
+    r.innerHTML = `<span class="ok">Teste enviado.</span> Em até 1 minuto a mensagem chega em ${fmtTel(tel)}. Confira como ficou antes de enviar para todos.`;
+  } catch (e){ r.innerHTML = erroN8n(e); }
+  finally { btn.disabled = false; }
 };
 
 $('#env-go').onclick = async () => {
+  const { gs, todos, lista } = publico();
   const msg = $('#env-msg').value.trim();
-  const inst = $('#env-inst').value.trim();
-  const { grupos, lista } = publico();
-  if (!msg) return alert('Escreva a mensagem.');
-  if (!inst) return alert('Informe o nome da instância da Evolution.');
-  if (!lista.length) return alert('Nenhum contato neste público.');
-  if (CFG.N8N_WEBHOOK.includes('SEU-N8N')) return alert('Configure a URL do webhook do n8n no topo do arquivo.');
+  const p = [];
+  if (!lista.length) p.push('Escolha para quem enviar.');
+  p.push(...pendBase());
+  if (p.length) return alert(p.join('\n'));
   const lim = Math.max(1, parseInt($('#env-lim').value) || 50);
-  const mn = Math.max(15, parseInt($('#env-min').value) || 20);
-  const mx = Math.max(mn, parseInt($('#env-max').value) || 60);
   const n = Math.min(lista.length, lim);
-  const publicoTxt = grupos.length ? grupos.map(g => nomeGrupo[g]).join(' + ') : 'Todos';
-  if (!confirm(`Enviar para ${n} contatos (${publicoTxt})?\n\nMensagem:\n${msg.slice(0, 300)}${msg.length > 300 ? '...' : ''}`)) return;
-
-  const { data: sess } = await sb.auth.getSession();
-  if (!sess.session) return alert('Sessão expirada. Entre de novo.');
+  const quem = todos ? 'Todos os contatos' : gs.map(rotulo).join(' + ');
+  if (!confirm(`Enviar para ${n} pessoa(s) (${quem})?\n\nMensagem:\n${msg.slice(0, 300)}${msg.length > 300 ? '...' : ''}`)) return;
   const btn = $('#env-go'); btn.disabled = true; btn.textContent = 'Enviando pedido...';
   const r = $('#env-res'); r.hidden = false; r.textContent = 'Aguarde...';
   try {
-    const resp = await fetch(CFG.N8N_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        jwt: sess.session.access_token,
-        lista: publicoTxt,
-        instancia: inst,
-        mensagem: msg,
-        espera_min: mn, espera_max: mx, limite: lim,
-        contatos: lista.map(c => ({ nome: c.nome, telefone: c.telefone }))
-      })
-    });
-    if (!resp.ok) throw new Error('O n8n respondeu ' + resp.status);
-    r.innerHTML = `<span class="ok">Disparo iniciado.</span>\nO n8n está enviando ${n} mensagens com espera de ${mn} a ${mx} segundos entre elas. Pode fechar esta página; acompanhe em Executions no n8n.`;
-  } catch (e){
-    r.innerHTML = `<span class="bad">Não consegui falar com o n8n: ${esc(e.message || e)}</span>\nConfira a URL do webhook, se o workflow está ativo e se o CORS está liberado no nó Webhook.`;
-  } finally {
-    btn.disabled = false; btn.textContent = 'Iniciar disparo';
-  }
+    const { mn, mx } = await dispara(lista.map(c => ({ nome: c.nome, telefone: c.telefone })), quem, lim);
+    r.innerHTML = `<span class="ok">Envio iniciado.</span>\nO n8n está enviando ${n} mensagens, com ${mn} a ${mx} segundos entre elas. Pode fechar esta página; acompanhe em Executions no n8n.`;
+  } catch (e){ r.innerHTML = erroN8n(e); }
+  finally { btn.disabled = false; atualizaEnvio(); }
 };
+
+/* ---------- início ---------- */
+$('#env-inst').value = LS.get('inst', '');
+$('#env-teste-nome').value = LS.get('teste_nome', '');
+$('#env-teste-tel').value = LS.get('teste_tel', '');
+refazChips();
+atualizaEnvio();
 </script>
 </body>
 </html>
